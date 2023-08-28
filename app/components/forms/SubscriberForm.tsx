@@ -1,23 +1,13 @@
 "use client";
-import {
-  CreateSubscriberDTO,
-  CreateSubscriberInput,
-  CreateSubscriberResponse,
-  CREATE_SUBSCRIBER,
-} from "@/app/api/subscriber.api";
+import { CreateSubscriberDTO, subscriberApi } from "@/app/api/subscriber.api";
 import { toastError, toastSuccess } from "@/app/config/toastify";
-import { useMutation } from "@apollo/client";
-import { FC, useEffect } from "react";
+import { FC } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import Input from "../inputs/Input";
 
 type Props = {};
 
 const SubscriberForm: FC<Props> = () => {
-  const [createSubscriber, { data, loading, error }] = useMutation<
-    CreateSubscriberResponse,
-    CreateSubscriberInput
-  >(CREATE_SUBSCRIBER);
   const initialValues: CreateSubscriberDTO = { email: "" };
   const {
     register,
@@ -26,26 +16,17 @@ const SubscriberForm: FC<Props> = () => {
     reset,
   } = useForm<CreateSubscriberDTO>({ defaultValues: initialValues });
 
-  const onSubmit: SubmitHandler<CreateSubscriberDTO> = (values) => {
-    createSubscriber({ variables: { createSubscriberInput: values } });
-  };
-
-  useEffect(() => {
-    if (data) {
-      if (data.createSubscriber) {
-        toastSuccess("Cảm ơn bạn sẽ đăng ký");
-        reset(initialValues);
-      }
-    }
-  }, [data]);
-
-  useEffect(() => {
-    if (error) {
+  const onSubmit: SubmitHandler<CreateSubscriberDTO> = async (values) => {
+    const newSubscriber = await subscriberApi.create(values);
+    if (newSubscriber) {
+      toastSuccess("Cảm ơn bạn sẽ đăng ký");
+      reset(initialValues);
+    } else {
       toastError("Xin lỗi, đã có lỗi xảy ra. Bạn vui lòng thử lại sau");
     }
-  }, [error]);
+  };
 
-  const formLoading = isSubmitting || loading;
+  const formLoading = isSubmitting;
 
   return (
     <form className="flex flex-col gap-3" onSubmit={handleSubmit(onSubmit)}>
