@@ -1,12 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { FC, useState } from "react";
+import { FC, useContext, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { BsFillCaretDownFill } from "react-icons/bs";
 import { ROUTES } from "../constants";
-import { selectCategories } from "../redux/features/page";
-import { useAppSelector } from "../redux/hooks";
+import { HomePageContext } from "../context";
 
 type Props = {
   open: boolean;
@@ -14,7 +13,7 @@ type Props = {
 };
 
 const HeaderDrawer: FC<Props> = ({ open, onToggle }) => {
-  const categories = useAppSelector(selectCategories);
+  const { categories } = useContext(HomePageContext);
 
   const [openCategories, setOpenCategories] = useState<boolean>(true);
 

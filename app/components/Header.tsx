@@ -4,8 +4,6 @@ import Link from "next/link";
 import { FC, memo, useEffect, useState } from "react";
 import { BiMenu, BiSearch } from "react-icons/bi";
 import { ROUTES, SOCIAL_MEDIA_LIST } from "../constants";
-import { fetchHomePage } from "../redux/features/page";
-import { useAppDispatch } from "../redux/hooks";
 import HeaderDrawer from "./HeaderDrawer";
 import HeaderNav from "./HeaderNav";
 import HeaderSearch from "./HeaderSearch";
@@ -14,12 +12,6 @@ type Props = {};
 const Header: FC<Props> = () => {
   const [openSearch, setOpenSearch] = useState<boolean>(false);
   const [openDrawer, setOpenDrawer] = useState<boolean>(false);
-
-  const appDispatch = useAppDispatch();
-
-  useEffect(() => {
-    appDispatch(fetchHomePage());
-  }, []);
 
   const handleToggleOpenSearch = () => {
     setOpenSearch((prevState) => !prevState);

@@ -1,18 +1,17 @@
 "use client";
 
 import Link from "next/link";
-import { FC, memo } from "react";
+import { FC, memo, useContext } from "react";
 import { BsFillCaretDownFill } from "react-icons/bs";
 import { ROUTES } from "../constants";
-import { selectCategories } from "../redux/features/page";
-import { useAppSelector } from "../redux/hooks";
+import { HomePageContext } from "../context";
 
 type Props = {
   open?: boolean;
 };
 
 const HeaderNav: FC<Props> = ({ open }) => {
-  const categories = useAppSelector(selectCategories);
+  const { categories } = useContext(HomePageContext);
 
   return (
     <nav

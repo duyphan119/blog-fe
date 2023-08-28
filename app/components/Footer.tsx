@@ -1,17 +1,15 @@
 "use client";
 
 import Link from "next/link";
-import { FC, Fragment, memo } from "react";
+import { FC, Fragment, memo, useContext } from "react";
 import { ROUTES, SOCIAL_MEDIA_LIST } from "../constants";
-import { selectCategories, selectCountBlogs } from "../redux/features/page";
-import { useAppSelector } from "../redux/hooks";
-import NewsletterSubscriberForm from "./forms/SubscriberForm";
+import { HomePageContext } from "../context";
+import { SubscriberForm } from "./forms";
 
 type Props = {};
 
 const Footer: FC<Props> = () => {
-  const countBlogs = useAppSelector(selectCountBlogs);
-  const categories = useAppSelector(selectCategories);
+  const { countBlogs, categories } = useContext(HomePageContext);
 
   return (
     <footer className="xl:px-44 px-4 grid grid-cols-4 gap-6 bg-navy text-white py-10">
@@ -88,7 +86,7 @@ const Footer: FC<Props> = () => {
       <div className="lg:col-span-1 md:col-span-2 col-span-4">
         <h4 className="uppercase text-lg font-bold">Đăng ký nhận Email</h4>
         <div className="mt-6">
-          <NewsletterSubscriberForm />
+          <SubscriberForm />
         </div>
       </div>
     </footer>

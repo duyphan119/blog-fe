@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Roboto_Mono } from "next/font/google";
 import ScrollToTop from "./components/ScrollToTop";
-import { ReduxProvider } from "./redux/Provider";
 import "./globals.css";
 import "toastify-js/src/toastify.css";
 
@@ -21,7 +20,7 @@ export default async function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <ScrollToTop />
-        <ReduxProvider>{children}</ReduxProvider>
+        {children}
       </body>
     </html>
   );

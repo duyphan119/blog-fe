@@ -1,6 +1,5 @@
-import { FC, memo } from "react";
-import { selectCountBlogs } from "../redux/features/page";
-import { useAppSelector } from "../redux/hooks";
+import { FC, memo, useContext } from "react";
+import { HomePageContext } from "../context";
 import CategoryCard from "./CategoryCard";
 import CountBlogs from "./CountBlogs";
 import { SubscriberForm } from "./forms";
@@ -9,7 +8,7 @@ import SocialMedia from "./SocialMedia";
 type Props = {};
 
 const SidebarContent: FC<Props> = () => {
-  const countBlogs = useAppSelector(selectCountBlogs);
+  const { countBlogs } = useContext(HomePageContext);
   return (
     <aside className="flex flex-col gap-8">
       <SocialMedia />
