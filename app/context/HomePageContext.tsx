@@ -1,7 +1,7 @@
 "use client";
 
-import { createContext, FC, ReactNode, useState, useEffect } from "react";
-import { HomePage, HomePageResponse, pageApi } from "../api/page.api";
+import { createContext, FC, ReactNode, useEffect, useState } from "react";
+import { HomePage, pageApi } from "../api/page.api";
 
 const defaultValue = {
   categories: [],
@@ -15,21 +15,27 @@ const HomePageContext = createContext<HomePage>(defaultValue);
 type Props = { children: ReactNode };
 
 export const HomePageProvider: FC<Props> = ({ children }) => {
-  const [homePage, setHomePage] = useState<HomePage>(defaultValue);
+  const [homePage, setHomePage] = useState<HomePage>(() => defaultValue);
+  const [first, setFirst] = useState<boolean>(true);
 
   useEffect(() => {
-    (async () => {
+    const fetchData = async () => {
       try {
         const { data } = await pageApi.homePage();
-        console.log({ data });
         if (data) {
           setHomePage(data.homePage);
         }
       } catch (error) {
         console.log(error);
+      } finally {
+        setFirst(false);
       }
-    })();
+    };
+
+    fetchData();
   }, []);
+
+  if (first) return <></>;
 
   return (
     <HomePageContext.Provider value={{ ...homePage }}>

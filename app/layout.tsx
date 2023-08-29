@@ -3,6 +3,7 @@ import { Roboto_Mono } from "next/font/google";
 import ScrollToTop from "./components/ScrollToTop";
 import "./globals.css";
 import "toastify-js/src/toastify.css";
+import { HomePageProvider } from "./context/HomePageContext";
 
 const inter = Roboto_Mono({ subsets: ["latin"] });
 
@@ -20,7 +21,7 @@ export default async function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <ScrollToTop />
-        {children}
+        <HomePageProvider>{children}</HomePageProvider>
       </body>
     </html>
   );
