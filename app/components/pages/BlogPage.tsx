@@ -27,6 +27,7 @@ type Props = {
 };
 
 const BlogPage: FC<Props> = ({ blog }) => {
+  const [content, setContent] = useState<string>("");
   const [{ replies, count }, setReplies] = useState<Replies>({
     count: 0,
     totalPages: 0,
@@ -51,6 +52,10 @@ const BlogPage: FC<Props> = ({ blog }) => {
     fetchData();
   }, [blog]);
 
+  useEffect(() => {
+    setContent(blog.content);
+  }, []);
+
   return (
     <>
       <HeadingPage blog={blog} />
@@ -60,7 +65,7 @@ const BlogPage: FC<Props> = ({ blog }) => {
             <div className="">
               <p
                 className="blog-content"
-                dangerouslySetInnerHTML={{ __html: blog.content }}
+                dangerouslySetInnerHTML={{ __html: content }}
               ></p>
             </div>
             <CategoryCard title={`${count} Phản hồi`}>
