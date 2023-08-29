@@ -30,6 +30,7 @@ module.exports = {
       purple: "#6528F7",
       grey: "gray",
       youtube: "#ff0000",
+      lightblue: "#CAEDFF",
     },
   },
   plugins: [],

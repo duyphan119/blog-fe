@@ -35,7 +35,7 @@ const HeaderNav: FC<Props> = ({ open }) => {
             <ul className="group-hover:grid hidden absolute top-full lg:left-44 lg:right-44 left-4 right-4 grid-cols-12 border-b border-b-hr bg-white border-t-2 border-t-darkpink border-x border-x-hr p-4 gap-4 max-h-[50vh] overflow-y-auto z-[2]">
               {categories.map((category) => (
                 <li
-                  className="lg:col-span-2 col-span-6 md:col-span-4 sm:col-span-3 capitalize"
+                  className="lg:col-span-4 col-span-6 md:col-span-3 capitalize"
                   key={category._id}
                   title={category.name}
                 >
@@ -49,7 +49,7 @@ const HeaderNav: FC<Props> = ({ open }) => {
                     <ul className="mt-1">
                       {category.children.map((child) => {
                         return (
-                          <li className="" key={child._id}>
+                          <li className="font-normal text-grey" key={child._id}>
                             <Link
                               href={`${ROUTES.BLOGS}?category=${child.slug}`}
                               className="hover:text-darkpink"
@@ -74,7 +74,7 @@ const HeaderNav: FC<Props> = ({ open }) => {
         </li>
         <li className="">|</li>
         <li className="">
-          <Link href="/" className="hover:text-darkpink py-2">
+          <Link href={ROUTES.CONTACT} className="hover:text-darkpink py-2">
             Liên hệ
           </Link>
         </li>

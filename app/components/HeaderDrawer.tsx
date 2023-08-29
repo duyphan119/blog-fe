@@ -24,7 +24,7 @@ const HeaderDrawer: FC<Props> = ({ open, onToggle }) => {
   return (
     <>
       <div
-        className={`drawer fixed top-0 bottom-0 left-0 w-[50vw] max-w-[50vw] ${
+        className={`drawer fixed top-0 bottom-0 left-0 w-[75vw] max-w-[75vw] ${
           open ? "translate-x-0" : "-translate-x-full"
         } transition-all bg-black text-white z-20`}
       >
@@ -89,7 +89,7 @@ const HeaderDrawer: FC<Props> = ({ open, onToggle }) => {
             </Link>
           </li>
           <li className="">
-            <Link href="/" className="hover:text-darkpink block ">
+            <Link href={ROUTES.CONTACT} className="hover:text-darkpink block ">
               Liên hệ
             </Link>
           </li>

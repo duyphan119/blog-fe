@@ -16,26 +16,17 @@ import {
   RepliesInput,
   RepliesResponse,
   Reply,
+  replyApi,
 } from "@/app/api/reply.api";
 import "moment/locale/vi";
 import Loading from "../Loading";
+import { Container, HeadingPage } from "../common";
 
 type Props = {
   blog: Blog;
 };
 
 const BlogPage: FC<Props> = ({ blog }) => {
-  const { data, error, loading } = useQuery<RepliesResponse, RepliesInput>(
-    REPLIES,
-    {
-      variables: {
-        repliesInput: {
-          blogId: blog._id,
-        },
-      },
-    }
-  );
-
   const [{ replies, count }, setReplies] = useState<Replies>({
     count: 0,
     totalPages: 0,
@@ -53,41 +44,17 @@ const BlogPage: FC<Props> = ({ blog }) => {
   }, []);
 
   useEffect(() => {
-    if (data) {
-      setReplies(data.replies);
-    }
-  }, [data]);
-
-  if (loading) return <Loading />;
+    const fetchData = async () => {
+      const data = await replyApi.replies({ blogId: blog._id });
+      setReplies(data);
+    };
+    fetchData();
+  }, [blog]);
 
   return (
-    <DefaultLayout>
-      <div className="relative">
-        <div className="overflow-hidden w-full h-0 pb-[40%] relative">
-          <Image
-            alt="thumbnail"
-            src={blog.thumbnail || THUMBNAIL_PLACEHOLDER}
-            priority={true}
-            sizes="(max-width:600px) 100vw"
-            fill={true}
-            className="group-hover:scale-105 transition-all duration-500"
-          />
-        </div>
-        <div className="absolute bottom-10 lg:left-44 left-4 lg:right-44 right-4 bg-black text-white p-4">
-          <small className="uppercase text-darkpink">
-            {blog.categories.map((category) => category.name).join(", ")}
-          </small>
-          <p className="my-4 text-2xl">{blog.title}</p>{" "}
-          <small className="text-lightgrey line-clamp-1">
-            <span className="uppercase ">{blog.author.name}</span>
-            <i className="mx-2">•</i>
-            <time className="">
-              {moment(blog.createdAt).format("DD-MM-YYYY")}
-            </time>
-          </small>
-        </div>
-      </div>
-      <div className="lg:px-44 px-4">
+    <>
+      <HeadingPage blog={blog} />
+      <Container>
         <div className="grid grid-cols-12 gap-6 my-6">
           <div className="lg:col-span-8 col-span-12 flex flex-col gap-6">
             <div className="">
@@ -127,8 +94,8 @@ const BlogPage: FC<Props> = ({ blog }) => {
             <SidebarContent />
           </div>
         </div>
-      </div>
-    </DefaultLayout>
+      </Container>
+    </>
   );
 };
 

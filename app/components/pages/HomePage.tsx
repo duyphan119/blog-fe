@@ -1,11 +1,10 @@
 "use client";
 
-import HomePageContext, {
-  HomePageProvider,
-} from "@/app/context/HomePageContext";
+import { HomePageContext } from "@/app/context";
 import { DefaultLayout } from "@/app/layouts";
 import { FC, useContext } from "react";
 import Categories from "../Categories";
+import { Container } from "../common";
 import MostViewBlogs from "../MostViewBlogs";
 import RecentBlogs from "../RecentBlogs";
 import SidebarContent from "../SidebarContent";
@@ -14,19 +13,19 @@ import { MostViewBlogsSkeleton, RecentBlogsSkeleton } from "../skeleton";
 type Props = {};
 
 const HomePage: FC<Props> = () => {
-  const { recentBlogs, mostViewBlogs, countBlogs } =
+  const { recentBlogs, mostViewBlogs, countBlogs, loading } =
     useContext(HomePageContext);
   return (
-    <DefaultLayout>
-      <div className="xl:mx-44 mx-4 my-2">
-        {mostViewBlogs.length > 0 ? (
+    <>
+      <Container className="my-2">
+        {!loading ? (
           <MostViewBlogs blogs={mostViewBlogs} />
         ) : (
           <MostViewBlogsSkeleton />
         )}
         <div className="grid grid-cols-12 gap-6 mt-8">
           <div className="lg:col-span-8 col-span-12 flex flex-col gap-8">
-            {recentBlogs.length > 0 ? (
+            {!loading ? (
               <RecentBlogs blogs={recentBlogs} />
             ) : (
               <RecentBlogsSkeleton />
@@ -39,8 +38,8 @@ const HomePage: FC<Props> = () => {
             <SidebarContent />
           </div>
         </div>
-      </div>
-    </DefaultLayout>
+      </Container>
+    </>
   );
 };
 

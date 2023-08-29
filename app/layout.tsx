@@ -4,6 +4,7 @@ import ScrollToTop from "./components/ScrollToTop";
 import "./globals.css";
 import "toastify-js/src/toastify.css";
 import { HomePageProvider } from "./context/HomePageContext";
+import { DefaultLayout } from "./layouts";
 
 const inter = Roboto_Mono({ subsets: ["latin"] });
 
@@ -21,7 +22,9 @@ export default async function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <ScrollToTop />
-        <HomePageProvider>{children}</HomePageProvider>
+        <HomePageProvider>
+          <DefaultLayout>{children}</DefaultLayout>
+        </HomePageProvider>
       </body>
     </html>
   );

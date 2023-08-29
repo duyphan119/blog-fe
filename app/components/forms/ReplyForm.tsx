@@ -1,14 +1,7 @@
 "use client";
 
-import {
-  CreateReplyInput,
-  CreateReplyResponse,
-  CREATE_REPLY,
-  Reply,
-  ReplyDTO,
-} from "@/app/api/reply.api";
+import { CreateReplyDTO, Reply, replyApi } from "@/app/api/reply.api";
 import { REPLY_INFO_KEY } from "@/app/constants";
-import { useMutation } from "@apollo/client";
 import { FC, useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Checkbox, Input, Textarea } from "../inputs";
@@ -18,15 +11,11 @@ type Props = {
   blogId: string;
 };
 
-type DTO = ReplyDTO & {
+type DTO = CreateReplyDTO & {
   rememberMe: boolean;
 };
 
 const ReplyForm: FC<Props> = ({ onSend, blogId }) => {
-  const [createReply, { data, loading }] = useMutation<
-    CreateReplyResponse,
-    CreateReplyInput
-  >(CREATE_REPLY);
   const initialValues: DTO = {
     content: "",
     email: "",
@@ -52,30 +41,20 @@ const ReplyForm: FC<Props> = ({ onSend, blogId }) => {
       setValue("rememberMe", true);
     }
   }, []);
-  const onSubmit: SubmitHandler<DTO> = (values) => {
+  const onSubmit: SubmitHandler<DTO> = async (values) => {
     const { rememberMe, ...input } = values;
     if (rememberMe) {
       const { content, ...info } = input;
       localStorage.setItem(REPLY_INFO_KEY, JSON.stringify(info));
     }
-    createReply({
-      variables: {
-        createReplyInput: {
-          ...input,
-          blogId,
-        },
-      },
-    });
-  };
-
-  useEffect(() => {
+    const data = await replyApi.create({ ...input, blogId });
     if (data) {
-      onSend?.(data.createReply);
+      onSend?.(data);
       reset(initialValues);
     }
-  }, [data]);
+  };
 
-  const formLoading = isSubmitting || loading;
+  const formLoading = isSubmitting;
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>

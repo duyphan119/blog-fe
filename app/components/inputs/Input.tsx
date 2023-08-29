@@ -34,7 +34,7 @@ const Input: FC<Props> = ({
   required = false,
   children,
   disabled = false,
-  value = "",
+  value,
   onChange,
   autoFocus = false,
   onBlur,

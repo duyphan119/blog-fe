@@ -2,6 +2,7 @@
 
 import { createContext, FC, ReactNode, useEffect, useState } from "react";
 import { HomePage, pageApi } from "../api/page.api";
+import { Loading } from "../components";
 
 const defaultValue = {
   categories: [],
@@ -10,13 +11,20 @@ const defaultValue = {
   recentBlogs: [],
 };
 
-const HomePageContext = createContext<HomePage>(defaultValue);
+type ContextValue = {
+  loading: boolean;
+} & HomePage;
+
+const HomePageContext = createContext<ContextValue>({
+  ...defaultValue,
+  loading: true,
+});
 
 type Props = { children: ReactNode };
 
 export const HomePageProvider: FC<Props> = ({ children }) => {
   const [homePage, setHomePage] = useState<HomePage>(() => defaultValue);
-  const [first, setFirst] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -28,17 +36,15 @@ export const HomePageProvider: FC<Props> = ({ children }) => {
       } catch (error) {
         console.log(error);
       } finally {
-        setFirst(false);
+        setLoading(false);
       }
     };
 
     fetchData();
   }, []);
 
-  if (first) return <></>;
-
   return (
-    <HomePageContext.Provider value={{ ...homePage }}>
+    <HomePageContext.Provider value={{ ...homePage, loading }}>
       {children}
     </HomePageContext.Provider>
   );

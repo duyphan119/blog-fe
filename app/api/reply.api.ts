@@ -1,4 +1,5 @@
-import { gql } from "@apollo/client";
+import { ApolloQueryResult, FetchResult, gql } from "@apollo/client";
+import client from "../config/apolloClient";
 import { Blog } from "./blog.api";
 
 export type Reply = {
@@ -13,7 +14,7 @@ export type Reply = {
   blog: Blog;
 };
 
-export type ReplyDTO = {
+export type CreateReplyDTO = {
   content: string;
   email: string;
   name: string;
@@ -29,7 +30,7 @@ export type ReplyParams = Partial<{
 }>;
 
 export type CreateReplyInput = {
-  createReplyInput: ReplyDTO & { blogId: string };
+  createReplyInput: CreateReplyDTO & { blogId: string };
 };
 
 export type CreateReplyResponse = {
@@ -75,3 +76,37 @@ export const REPLIES = gql`
     }
   }
 `;
+
+export const replyApi = {
+  replies: async (params: ReplyParams): Promise<Replies> => {
+    try {
+      const { data }: ApolloQueryResult<RepliesResponse> = await client.query({
+        query: REPLIES,
+        variables: {
+          repliesInput: params,
+        },
+      });
+      return data.replies;
+    } catch (error) {}
+
+    return {
+      totalPages: 0,
+      count: 0,
+      replies: [],
+    };
+  },
+  create: async (
+    dto: CreateReplyDTO & { blogId: string }
+  ): Promise<Reply | null> => {
+    try {
+      const { data }: FetchResult<CreateReplyResponse> = await client.mutate({
+        mutation: CREATE_REPLY,
+        variables: {
+          createReplyInput: dto,
+        },
+      });
+      if (data) return data.createReply;
+    } catch (error) {}
+    return null;
+  },
+};

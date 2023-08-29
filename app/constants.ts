@@ -7,6 +7,7 @@ export enum ROUTES {
   FORGOT_PASSWORD = "/forgot-password",
   REGISTER = "/register",
   SEARCH = "/search",
+  CONTACT = "/contact",
 }
 export const IS_PRODUCTION =
   process.env.IS_PRODUCTION === "true" ? true : false;

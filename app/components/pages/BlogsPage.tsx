@@ -3,13 +3,13 @@
 import { Blog, blogApi, Blogs } from "@/app/api/blog.api";
 import { Category } from "@/app/api/category.api";
 import { DEFAULT_LIMIT, ROUTES } from "@/app/constants";
-import { DefaultLayout } from "@/app/layouts";
 import { FC, useEffect, useMemo, useState } from "react";
 import { BsFillGridFill, BsFillGrid3X3GapFill } from "react-icons/bs";
 import { FaList } from "react-icons/fa";
 import { IconType } from "react-icons/lib";
 import BlogCard from "../BlogCard";
 import Breadcrumbs from "../Breadcrumbs";
+import { Container, HeadingPage } from "../common";
 import SidebarContent from "../SidebarContent";
 
 type Props = {
@@ -87,15 +87,15 @@ const BlogsPage: FC<Props> = ({
   }, [blogs]);
 
   return (
-    <DefaultLayout>
-      <div className="w-full xl:px-44 px-4 h-60 text-white bg-teal flex flex-col items-center justify-center">
+    <Container>
+      <HeadingPage>
         <Breadcrumbs
           links={links}
           current={currentBreadcrumbs || (category?.name ?? "Tất cả bài viết")}
           currentWrap={true}
         />
-      </div>
-      <div className="xl:px-44 px-4 my-6">
+      </HeadingPage>
+      <div className="my-6">
         <div className="grid grid-cols-12 gap-4">
           <div className="lg:col-span-8 col-span-12 flex flex-col gap-3">
             <div className="flex justify-between items-center">
@@ -105,7 +105,7 @@ const BlogsPage: FC<Props> = ({
                   const { title, icon: Icon } = item;
                   const isActive = title === displayType.title;
                   return (
-                    <li className="">
+                    <li className="" key={title}>
                       <button
                         type="button"
                         className={`border rounded-sm p-1 hover:text-white hover:bg-darkpink hover:border-darkpink ${
@@ -170,7 +170,7 @@ const BlogsPage: FC<Props> = ({
           </div>
         </div>
       </div>
-    </DefaultLayout>
+    </Container>
   );
 };
 
