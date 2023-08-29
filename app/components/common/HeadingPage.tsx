@@ -14,19 +14,21 @@ type Props = {
 
 const HeadingPage: FC<Props> = ({ blog, children, className = "" }) => {
   return blog ? (
-    <div className={`relative ${className}`}>
-      <div className="overflow-hidden w-full h-0 pb-[40%] relative">
+    <div
+      className={`relative ${className} pt-24 lg:pt-64 md:pt-48 sm:pt-36 px-10 pb-10`}
+    >
+      <div className="absolute top-0 right-0 left-0 bottom-0 overflow-hidden -z-10">
         <Image
           alt="thumbnail"
           src={blog?.thumbnail ?? THUMBNAIL_PLACEHOLDER}
           priority={true}
           sizes="(max-width:600px) 100vw"
           fill={true}
-          className="group-hover:scale-105 transition-all duration-500"
+          className="group-hover:scale-105 transition-all duration-500 object-cover"
         />
       </div>
 
-      <div className="absolute bottom-10 lg:left-44 left-4 lg:right-44 right-4 bg-black text-white p-4">
+      <div className="bg-black text-white p-4">
         <small className="uppercase text-darkpink">
           {blog.categories.map((category) => category.name).join(", ")}
         </small>
