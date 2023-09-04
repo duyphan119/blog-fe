@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { FC, useContext, useState } from "react";
+import { usePathname } from "next/navigation";
+import { FC, useContext, useState, useEffect } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { BsFillCaretDownFill } from "react-icons/bs";
 import { ROUTES } from "../constants";
@@ -9,10 +10,12 @@ import { HomePageContext } from "../context";
 
 type Props = {
   open: boolean;
-  onToggle: () => void;
+  onClose: () => void;
 };
 
-const HeaderDrawer: FC<Props> = ({ open, onToggle }) => {
+const HeaderDrawer: FC<Props> = ({ open, onClose }) => {
+  const pathname = usePathname();
+
   const { categories } = useContext(HomePageContext);
 
   const [openCategories, setOpenCategories] = useState<boolean>(true);
@@ -20,6 +23,10 @@ const HeaderDrawer: FC<Props> = ({ open, onToggle }) => {
   const handleToggleOpenCategories = () => {
     setOpenCategories((prevState) => !prevState);
   };
+
+  useEffect(() => {
+    onClose();
+  }, [pathname]);
 
   return (
     <>
@@ -30,7 +37,7 @@ const HeaderDrawer: FC<Props> = ({ open, onToggle }) => {
       >
         <ul className="mt-4 lg:px-44 px-4 uppercase font-medium flex flex-col gap-3 justify-center relative">
           <li className="text-right">
-            <button type="button" onClick={onToggle} className="text-xl">
+            <button type="button" onClick={onClose} className="text-xl">
               <AiOutlineClose />
             </button>
           </li>
@@ -98,7 +105,7 @@ const HeaderDrawer: FC<Props> = ({ open, onToggle }) => {
       {open ? (
         <div
           className="overlay fixed top-0 bottom-0 left-0 right-0 opacity-5 z-10 bg-black"
-          onClick={onToggle}
+          onClick={onClose}
         ></div>
       ) : null}
     </>

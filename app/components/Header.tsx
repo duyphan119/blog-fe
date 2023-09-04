@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { FC, memo, useEffect, useState } from "react";
+import { FC, memo, useCallback, useState } from "react";
 import { BiMenu, BiSearch } from "react-icons/bi";
 import { ROUTES, SOCIAL_MEDIA_LIST } from "../constants";
 import HeaderDrawer from "./HeaderDrawer";
@@ -20,6 +20,10 @@ const Header: FC<Props> = () => {
   const handleToggleOpenDrawer = () => {
     setOpenDrawer((prevState) => !prevState);
   };
+
+  const handleCloseDrawer = useCallback(() => {
+    setOpenDrawer(false);
+  }, []);
 
   return (
     <header className="">
@@ -52,7 +56,7 @@ const Header: FC<Props> = () => {
             >
               <BiMenu className="text-xl" />
             </button>
-            <HeaderDrawer open={openDrawer} onToggle={handleToggleOpenDrawer} />
+            <HeaderDrawer open={openDrawer} onClose={handleCloseDrawer} />
           </li>
           <li className="">
             <button

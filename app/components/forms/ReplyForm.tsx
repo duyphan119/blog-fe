@@ -71,7 +71,7 @@ const ReplyForm: FC<Props> = ({ onSend, blogId }) => {
             disabled={formLoading}
           />
         </div>
-        <div className="col-span-1">
+        <div className="md:col-span-1 col-span-3">
           <Input
             placeholder="Tên"
             register={register("name", {
@@ -83,7 +83,7 @@ const ReplyForm: FC<Props> = ({ onSend, blogId }) => {
             disabled={formLoading}
           />
         </div>
-        <div className="col-span-1">
+        <div className="md:col-span-1 col-span-3">
           <Input
             placeholder="Email"
             register={register("email", {
@@ -99,7 +99,7 @@ const ReplyForm: FC<Props> = ({ onSend, blogId }) => {
             disabled={formLoading}
           />
         </div>
-        <div className="col-span-1">
+        <div className="md:col-span-1 col-span-3">
           <Input
             placeholder="Website"
             register={register("website")}

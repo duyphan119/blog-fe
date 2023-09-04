@@ -1,6 +1,7 @@
 "use client";
 
-import { Blog, blogApi, Blogs } from "@/app/api/blog.api";
+import api from "@/app/api";
+import { Blog, Blogs } from "@/app/api/blog.api";
 import { Category } from "@/app/api/category.api";
 import { DEFAULT_LIMIT, ROUTES } from "@/app/constants";
 import { FC, useEffect, useMemo, useState } from "react";
@@ -71,7 +72,7 @@ const BlogsPage: FC<Props> = ({
     const newPageSize =
       blogs.length < count ? pageSize + DEFAULT_LIMIT : DEFAULT_LIMIT;
     try {
-      const { blogs } = await blogApi.blogs({
+      const { blogs } = await api.blog.blogs({
         ...(category ? { categoryIds: [category._id] } : {}),
         limit: newPageSize,
       });
